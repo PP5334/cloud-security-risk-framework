@@ -1,0 +1,46 @@
+# Copy this file to config.yaml and fill in your own values.
+# config.yaml is gitignored — it's meant to hold account-specific details
+# that should never be committed to source control.
+
+aws:
+  # Which AWS CLI profile to use (as set up via `aws configure --profile <name>`).
+  # Leave as null to use the default credential chain (default profile,
+  # environment variables, or an instance role).
+  profile: null
+  region: us-east-1
+
+# "Known baseline" data used by the behavioral and ML checks to decide
+# what counts as new/unusual for a given identity. This is exactly the
+# kind of thing that must be supplied at runtime, not hardcoded in source —
+# it's specific to your account, not to the tool itself.
+behavioral_baseline:
+  # Access keys already known/trusted, across all identities.
+  known_access_keys:
+    - "AKIA_EXAMPLE_BASELINE_KEY"
+
+  # Regions each identity is normally seen operating from.
+  known_regions_by_identity:
+    iam-user-example:
+      - "us-east-1"
+
+  spike_window_minutes: 5
+  spike_threshold: 20
+
+ml_baseline:
+  # Source IPs each identity is normally seen using.
+  known_source_ips_by_identity:
+    iam-user-example:
+      - "10.0.1.15"
+
+  # Isolation Forest's expected fraction of anomalous activity.
+  contamination: 0.1
+
+# Optional. The correlation engine needs to know which identity "owns" or
+# touches which resource, to combine a config finding on a resource with a
+# behavioral/ML finding on an identity into one case. There's no automatic
+# way to discover this for a real account, so it's supplied here. If you
+# leave this empty, config findings and behavioral/ML findings are still
+# reported, just not merged into a single correlated case.
+resource_ownership:
+  iam-user-example:
+    - "my-bucket-name"

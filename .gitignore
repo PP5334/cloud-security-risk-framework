@@ -6,3 +6,6 @@ venv/
 .ipynb_checkpoints/
 .DS_Store
 Thumbs.db
+
+# Account-specific — never commit real config, only config.example.yaml
+config.yaml

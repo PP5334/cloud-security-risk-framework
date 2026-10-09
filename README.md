@@ -11,6 +11,7 @@ Checks an AWS account for risky configurations, suspicious account activity, and
 - [How It Works](#how-it-works)
 - [Project Structure](#project-structure)
 - [Quick Start](#quick-start)
+- [Configuring a Real Account](#configuring-a-real-account)
 - [Results & Dashboard](#results--dashboard)
 - [License](#license)
 
@@ -46,6 +47,9 @@ The more of these three agree something is wrong about the same resource, the hi
 ├── scenario_generator.py    # Generates the 100-case test batch
 ├── evaluate_batch.py        # Runs the evaluation, prints the results
 ├── run_scenarios.py         # Runs 4 example cases end-to-end
+├── scan_account.py           # CLI: scan a real AWS account
+├── config_loader.py          # Loads config.yaml at runtime
+├── config.example.yaml       # Config template — copy to config.yaml
 ├── dashboard.py              # Streamlit dashboard
 └── docs/                     # Diagrams and screenshots
 ```
@@ -64,6 +68,23 @@ python evaluate_batch.py
 # Launch the dashboard
 streamlit run dashboard.py
 ```
+
+## Configuring a Real Account
+
+The example scripts above all run on built-in sample data — no AWS account needed. To point the tool at a real account instead, account-specific details are supplied through a config file at runtime, never hardcoded in the source:
+
+```bash
+cp config.example.yaml config.yaml   # config.yaml is gitignored — fill in your own details
+python scan_account.py --config config.yaml
+```
+
+`config.yaml` holds the things that are specific to *your* account, not to the tool itself:
+
+- which AWS profile/region to use
+- which access keys, regions, and source IPs are already "known" for each identity (so the tool knows what counts as new/unusual)
+- optionally, which identity owns which resource, so a configuration finding and a behavioral finding on the same resource can be merged into one correlated case (without this, both are still reported, just separately)
+
+`--config` can also be set via the `CLOUDSEC_CONFIG` environment variable, or defaults to `./config.yaml`. Use `--skip-cloudtrail` to run only the configuration scan (useful since the behavioral/ML checks need CloudTrail activity history, which can take a few minutes to become queryable on a very new account).
 
 ## Results & Dashboard
 
