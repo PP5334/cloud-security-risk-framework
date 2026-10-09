@@ -1,8 +1,18 @@
 # Cloud Security Risk Framework
 
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Python](https://img.shields.io/badge/python-3.13-blue.svg)
+
 Checks an AWS account for risky configurations, suspicious account activity, and unusual behavior patterns — then combines all three into a single risk score instead of three separate alerts.
 
-![Overview diagram](docs/overview_diagram.png)
+## Table of Contents
+
+- [Scope](#scope)
+- [How It Works](#how-it-works)
+- [Project Structure](#project-structure)
+- [Quick Start](#quick-start)
+- [Results & Dashboard](#results--dashboard)
+- [License](#license)
 
 ## Scope
 
@@ -12,22 +22,19 @@ This is a proof-of-concept, not a production tool. A few things to know going in
 - The "auto-fix" decision is just that — a decision. It doesn't actually change anything in a real AWS account yet.
 - The machine-learning piece is trained on a small sample baseline, not real historical account behavior.
 
-## Quick start
+## How It Works
 
-```bash
-pip install -r requirements.txt
+![Overview diagram](docs/overview_diagram.png)
 
-# Run 4 example scenarios
-python run_scenarios.py
+A resource or account activity gets checked three different ways at once:
 
-# Run a larger 100-case evaluation
-python evaluate_batch.py
+1. **Configuration** — is anything set up insecurely? (public storage, overly broad permissions, open network ports)
+2. **Account activity** — does anything look unusual? (new access key, login from an unfamiliar place, a burst of activity)
+3. **Anomaly detection** — a machine-learning model flags patterns that don't fit what "normal" looks like, even if nobody wrote an explicit rule for it
 
-# Launch the dashboard
-streamlit run dashboard.py
-```
+The more of these three agree something is wrong about the same resource, the higher its risk level — Low, Medium, High, or Critical. High/Critical cases get a suggested fix: automatic for configuration problems (those are plain facts), but anything involving account activity or the ML signal always needs a human to approve first, since that signal can be wrong sometimes.
 
-## Project structure
+## Project Structure
 
 ```
 .
@@ -43,17 +50,22 @@ streamlit run dashboard.py
 └── docs/                     # Diagrams and screenshots
 ```
 
-## How it works
+## Quick Start
 
-A resource or account activity gets checked three different ways at once:
+```bash
+pip install -r requirements.txt
 
-1. **Configuration** — is anything set up insecurely? (public storage, overly broad permissions, open network ports)
-2. **Account activity** — does anything look unusual? (new access key, login from an unfamiliar place, a burst of activity)
-3. **Anomaly detection** — a machine-learning model flags patterns that don't fit what "normal" looks like, even if nobody wrote an explicit rule for it
+# Run 4 example scenarios
+python run_scenarios.py
 
-The more of these three agree something is wrong about the same resource, the higher its risk level — Low, Medium, High, or Critical. High/Critical cases get a suggested fix: automatic for configuration problems (those are plain facts), but anything involving account activity or the ML signal always needs a human to approve first, since that signal can be wrong sometimes.
+# Run a larger 100-case evaluation
+python evaluate_batch.py
 
-## Results
+# Launch the dashboard
+streamlit run dashboard.py
+```
+
+## Results & Dashboard
 
 Run on a 100-case test batch with known answers, so these numbers are measured, not estimated:
 
@@ -72,8 +84,6 @@ human-approval recommendations    = 53
 ```
 
 The configuration and activity checks hit 100%/0% because they're simple rule checks — a setting either matches a known bad pattern or it doesn't. The ML component is the one that's genuinely imperfect, on purpose, since real machine learning isn't 100% either.
-
-## Dashboard
 
 ![Dashboard](docs/dashboard_screenshot.png)
 
