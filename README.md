@@ -12,6 +12,7 @@ Checks an AWS account for risky configurations, suspicious account activity, and
 - [Project Structure](#project-structure)
 - [Quick Start](#quick-start)
 - [Configuring a Real Account](#configuring-a-real-account)
+- [Training the ML Model](#training-the-ml-model)
 - [Results & Dashboard](#results--dashboard)
 - [License](#license)
 
