@@ -1,0 +1,60 @@
+<mxGraphModel dx="800" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="520" pageHeight="680" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <mxCell id="a" value="Check Configuration&#10;(storage, permissions,&#10;network rules)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0b8299;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="20" y="20" width="150" height="90" as="geometry" />
+    </mxCell>
+
+    <mxCell id="b" value="Check Account Activity&#10;(new logins,&#10;unusual actions)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="185" y="20" width="150" height="90" as="geometry" />
+    </mxCell>
+
+    <mxCell id="c" value="Check for Anomalies&#10;(machine learning)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="350" y="20" width="150" height="90" as="geometry" />
+    </mxCell>
+
+    <mxCell id="combine" value="Combine Results&#10;Assign a Risk Level: Low / Medium / High / Critical" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="20" y="150" width="480" height="60" as="geometry" />
+    </mxCell>
+
+    <mxCell id="decision" value="Is it High or&#10;Critical risk?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="160" y="250" width="200" height="90" as="geometry" />
+    </mxCell>
+
+    <mxCell id="fix" value="Suggest a Fix&#10;(auto for config issues, needs approval for account/activity issues)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="20" y="375" width="480" height="60" as="geometry" />
+    </mxCell>
+
+    <mxCell id="dashboard" value="Show on Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="20" y="495" width="480" height="55" as="geometry" />
+    </mxCell>
+
+    <!-- Edges -->
+    <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.17;entryY=0;" edge="1" parent="1" source="a" target="combine">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="b" target="combine">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.83;entryY=0;" edge="1" parent="1" source="c" target="combine">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;" edge="1" parent="1" source="combine" target="decision">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="e5" value="Yes" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;" edge="1" parent="1" source="decision" target="fix">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e6" value="No" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;exitX=1;exitY=0.5;entryX=1;entryY=0.5;" edge="1" parent="1" source="decision" target="dashboard">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;" edge="1" parent="1" source="fix" target="dashboard">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+  </root>
+</mxGraphModel>
